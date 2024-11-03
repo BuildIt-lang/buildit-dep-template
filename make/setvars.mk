@@ -13,8 +13,12 @@ LDFLAGS=
 
 LDFLAGS+=-L$(BUILD_DIR) -l$(LIBRARY_NAME)
 
-CFLAGS+=$(shell make --no-print-directory -C $(BUILDIT_DIR)/ DEBUG=$(DEBUG) compile-flags)
-LDFLAGS+=$(shell make --no-print-directory -C $(BUILDIT_DIR)/ DEBUG=$(DEBUG) linker-flags)
+# These are the flags to send to BuildIt
+# This is made into a variable so all three uses use consistent flags
+BUILDIT_FLAGS=DEBUG=$(DEBUG)
+
+CFLAGS+=$(shell make --no-print-directory -C $(BUILDIT_DIR)/ $(BUILDIT_FLAGS) compile-flags)
+LDFLAGS+=$(shell make --no-print-directory -C $(BUILDIT_DIR)/ $(BUILDIT_FLAGS) linker-flags)
 
 DEPS=$(BUILD_DIR)/buildit.dep
 INCLUDE_FLAGS=-I $(INCLUDE_DIR)
